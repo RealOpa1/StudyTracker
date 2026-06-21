@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YandexTracker — Дашборд</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      padding: 20px;
+    }
+    .header {
+      max-width: 960px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 { font-size: 24px; color: #4a76a8; }
+    .header .subtitle { font-size: 13px; color: #888; }
+    .stats {
+      max-width: 960px;
+      margin: 0 auto 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .stat-card .value { font-size: 28px; font-weight: 700; color: #4a76a8; }
+    .stat-card .label { font-size: 12px; color: #888; margin-top: 4px; }
+    .section {
+      max-width: 960px;
+      margin: 0 auto 20px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .section h2 {
+      font-size: 16px;
+      color: #4a76a8;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 2px solid #eee;
+      color: #888;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    tr:hover td { background: #f8f9ff; }
+    .domain-cell {
+      font-weight: 500;
+      color: #4a76a8;
+    }
+    .duration-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .duration-bar {
+      height: 6px;
+      background: #e0e7ff;
+      border-radius: 3px;
+      overflow: hidden;
+      flex: 1;
+      max-width: 120px;
+    }
+    .duration-bar .fill {
+      height: 100%;
+      background: #4a76a8;
+      border-radius: 3px;
+    }
+    .rank-num {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background: #e0e7ff;
+      color: #4a76a8;
+      font-weight: 700;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    .rank-num.top1 { background: #ffd700; color: #333; }
+    .rank-num.top2 { background: #c0c0c0; color: #333; }
+    .rank-num.top3 { background: #cd7f32; color: #fff; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .tag.count { background: #e0e7ff; color: #4a76a8; }
+    .tag.time { background: #d4edda; color: #155724; }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #aaa;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 10px; }
+    .empty-state p { font-size: 14px; }
+    .time-col { white-space: nowrap; color: #888; font-size: 12px; }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+      font-size: 14px;
+    }
+    .error {
+      text-align: center;
+      padding: 40px;
+      color: #721c24;
+      background: #f8d7da;
+      border-radius: 10px;
+    }
+    .btn-danger {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-danger:hover { background: #c82333; }
+    .btn-danger:disabled { background: #aaa; cursor: default; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>📊 Дашборд</h1>
+      <div class="subtitle">YandexTracker — история посещений</div>
+    </div>
+    <button id="clearBtn" class="btn-danger">🗑 Очистить историю</button>
+  </div>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section" id="topSection">
+    <h2>🔥 Самые посещаемые сайты</h2>
+    <div id="topContent"><div class="loading">Загрузка...</div></div>
+  </div>
+
+  <div class="section" id="recentSection">
+    <h2>📋 Последние визиты</h2>
+    <div id="recentContent"><div class="loading">Загрузка...</div></div>
+  </div>
+
+  <script src="browser-polyfill.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
